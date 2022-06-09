@@ -128,7 +128,7 @@ public class SuperMarketManager {
             }
         }
         readAndWriteStaffList.writeFileStaffs(staffs);
-        superMarketManagerMenu();
-
+        System.out.println("Pass was changed, please log in again");
+        login();
     }
 }

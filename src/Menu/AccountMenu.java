@@ -11,14 +11,10 @@ import java.util.List;
 public class AccountMenu {
     List<Staff> staffs = new ArrayList<>();
     ReadAndWriteStaffList readAndWriteStaffList = new ReadAndWriteStaffList();
-
-    {
-        readAndWriteStaffList.readFileStaffs(staffs);
-    }
-
     ValiDateKeyBoard valiDateKeyBoard = new ValiDateKeyBoard();
 
     public Staff accountMenu() {
+        readAndWriteStaffList.readFileStaffs(staffs);
         Staff user = new Staff();
         int count = 0;
         boolean check = true;
