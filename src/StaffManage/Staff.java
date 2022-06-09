@@ -168,23 +168,21 @@ public class Staff {
         int StrActuallyIncome = (int) actuallyIncome();
 
 
-        return "Staff{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", position='" + position + '\'' +
-                ", address='" + address + '\'' +
-                ", gender='" + gender + '\'' +
-                ", birth=" + strBirth +
-                ", contractStartDay=" + StrContractStartDay +
-                ", contractEndDay=" + StrContractEndDay +
-                ", cccd='" + cccd + '\'' +
-                ", bankCardID='" + bankCardID + '\'' +
-                ", pass='" + pass + '\'' +
-                ", salary=" + StrSalary +
-                ", workday=" + workday +
-                ", businessBonus=" + StrBusinessBonus +
-                ", actuallyIncome=" + StrActuallyIncome+
-                '}';
+        return  id +
+                ", " + name +
+                ", " + position +
+                ", " + address +
+                ", " + gender +
+                ", " + strBirth +
+                ", " + StrContractStartDay +
+                ", " + StrContractEndDay +
+                ", " + cccd +
+                ", " + bankCardID +
+                ", " + pass +
+                ", " + StrSalary +
+                ", " + workday +
+                ", " + StrBusinessBonus +
+                ", " + StrActuallyIncome;
     }
 
     public String toWriteStaffList() {
@@ -221,15 +219,13 @@ public class Staff {
         int StrActuallyIncome = (int) actuallyIncome();
 
 
-        return "Staff{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", position='" + position + '\'' +
-                ", salary=" + StrSalary +
-                ", workday=" + workday +
-                ", businessBonus=" + StrBusinessBonus +
-                ", actuallyIncome=" + StrActuallyIncome+
-                '}';
+        return id +
+                ", " + name +
+                ", " + position  +
+                ", " + StrSalary +
+                ", " + workday +
+                ", " + StrBusinessBonus +
+                ", " + StrActuallyIncome;
     }
 
 }

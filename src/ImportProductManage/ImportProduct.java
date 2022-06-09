@@ -110,7 +110,7 @@ public class ImportProduct {
         return this.amount-this.sellAmount;
     }
 
-    public double totalSellProduct(){
+    public double totalSellPrice(){
       return   this.sellAmount*this.sellPrice;
     }
 
@@ -123,23 +123,21 @@ public class ImportProduct {
         int intTotalImportPrice = (int) totalImportPrice();
         int intSellPrice = (int) sellPrice;
         int intSellAmount = (int) sellAmount;
-        int intTotalSellProduct = (int) totalImportPrice();
+        int intTotalSellPrice = (int) totalSellPrice();
         int intInventory = (int) inventory();
 
-        return "Product{" +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", maker='" + maker + '\'' +
-                ", importDate=" + strImportDate +
-                ", expiry=" + strExpiry +
-                ", importPrice=" + intImportPrice +
-                ", amount=" + intAmount +
-                ", totalImportPrice =" + intTotalImportPrice+
-                ", sellPrice=" + intSellPrice +
-                ", intSellAmount=" + intSellAmount+
-                ", sellPrice=" + intTotalSellProduct +
-                ", intInventory=" + intInventory +
-                '}';
+        return id +
+                ", " + name +
+                ", " + maker +
+                ", " + strImportDate +
+                ", " + strExpiry +
+                ", " + intImportPrice +
+                ", " + intAmount +
+                ", " + intTotalImportPrice+
+                ", " + intSellPrice +
+                ", " + intSellAmount+
+                ", " + intTotalSellPrice +
+                ", " + intInventory ;
     }
 
     public String toWriteProductList() {
@@ -151,7 +149,7 @@ public class ImportProduct {
         int intSellPrice = (int) sellPrice;
         int intSellAmount = (int) sellAmount;
         int intInventory = (int) inventory();
-        int intTotalSellProduct = (int) totalImportPrice();
+        int intTotalSellPrice = (int) totalSellPrice();
 
 
         return        id +
@@ -164,7 +162,7 @@ public class ImportProduct {
                 "," + intTotalImportPrice+
                 "," + intSellPrice +
                 "," + intSellAmount+
-                "," + intTotalSellProduct +
+                "," + intTotalSellPrice +
                 "," + intInventory;
     }
 }

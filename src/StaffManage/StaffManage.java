@@ -34,9 +34,10 @@ public class StaffManage {
         System.out.println("3. show staffList");
         System.out.println("4. show payroll");
         System.out.println("5. comeBackSuperMarketManage");
-        System.out.println("6. Exit");
+        System.out.println("6. log out");
+        System.out.println("7. Exit");
 
-        int choice = valiDateKeyBoard.importInt("choice");
+        int choice = valiDateKeyBoard.ValiDateChoiceSM();
 
         switch (choice){
             case 1:
@@ -55,8 +56,10 @@ public class StaffManage {
                 comeBackSuperMarketManage();
                 break;
             case 6:
-                Exit();
+                logout();
                 break;
+            case 7:
+                System.exit(0);
         }
     }
 
@@ -64,7 +67,14 @@ public class StaffManage {
     public void addStaff(){
         readAndWriteStaffList.readFileStaffs(staffs);
         System.out.println("Enter information of new staff:");
-        staffs.add(creatStaff());
+        String id = valiDateKeyBoard.importString("id");
+        for (int i = 0; i < staffs.size(); i++) {
+            if (id.equals(staffs.get(i).getId())) {
+                System.out.println("this is this id in list, please try again by other id");
+                staffManageMenu();
+            }
+        }
+        staffs.add(creatStaff(id));
         readAndWriteStaffList.writeFileStaffs(staffs);
     }
 
@@ -72,22 +82,37 @@ public class StaffManage {
     public void editStaff(){
         readAndWriteStaffList.readFileStaffs(staffs);
         String id = valiDateKeyBoard.importString("ID of editStaff");
+        String newId = valiDateKeyBoard.importString("new id");
+
+        if (id.equals(newId)){
         for (int i = 0; i < staffs.size(); i++) {
-                if (id.equals(staffs.get(i).getId())){
-                    staffs.set(i,creatStaff());
-                }else {
-                System.out.println("there is this ID in List, please enter again");
-                editStaff();
+            if (id.equals(staffs.get(i).getId())) {
+                staffs.set(i, creatStaff(newId));
             }
-            break;
+        }
+        } else {
+            for (int i = 0; i < staffs.size(); i++) {
+                if (newId.equals(staffs.get(i).getId())) {
+                    System.out.println("this is this id in list, please try again by other id");
+                    staffManageMenu();
+                }
+            }
+            for (int i = 0; i < staffs.size(); i++) {
+                if (id.equals(staffs.get(i).getId())) {
+                    staffs.set(i, creatStaff(newId));
+                    staffManageMenu();
+                }
+            }
         }
         readAndWriteStaffList.writeFileStaffs(staffs);
+        staffManageMenu();
     }
 
     //case 3:
     public void showStaffList(){
         readAndWriteStaffList.readFileStaffs(staffs);
         System.out.println("This is StaffList");
+        System.out.println("Id; Name; Position; address; gender; Birth; ContractStartDay; ContractEndDay; cccd; bankCardID; pass; Salary; WorkDays; BusinessBonus; ActuallyIncome");
         for (int i = 0; i < staffs.size(); i++) {
             System.out.println(staffs.get(i).toString());
         }
@@ -97,9 +122,15 @@ public class StaffManage {
     public void showPayroll(){
         readAndWriteStaffList.readFileStaffs(staffs);
         System.out.println("This is PayrollList");
+        System.out.println("Id; Name; Position; Salary; WorkDays; BusinessBonus; ActuallyIncome");
+        int totalPayRoll = 0;
         for (int i = 0; i < staffs.size(); i++) {
-            System.out.println(staffs.get(i).toStringPayRoll());
+            if (staffs.get(i).getWorkday() != 0) {
+                System.out.println(staffs.get(i).toStringPayRoll());
+                totalPayRoll += staffs.get(i).actuallyIncome();
+            }
         }
+        System.out.println("totalPayRoll: " +totalPayRoll + " VND");
     }
 
 //    case 5:
@@ -108,14 +139,14 @@ public class StaffManage {
         superMarketManager.superMarketManagerMenu();
     }
 
-    //case 6
-    public void Exit(){
-        System.exit(0);
+//    case 6:
+    public void logout(){
+        SuperMarketManager superMarketManager =new SuperMarketManager();
+        superMarketManager.login();
     }
 
 
-    public Staff creatStaff(){
-        String id = valiDateKeyBoard.importString("ID");
+    public Staff creatStaff(String id){
         String name = valiDateKeyBoard.importString("Name");
         String position = valiDate.position();
         String address = valiDateKeyBoard.importString("Address");

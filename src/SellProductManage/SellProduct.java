@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class SellProduct extends ImportProduct {
+public class SellProduct {
     private ImportProduct importProduct;
     private Date sellDay;
     private double sellAmount;
@@ -45,13 +45,13 @@ public class SellProduct extends ImportProduct {
         this.staff = staff;
     }
 
-    public double getAmount() {
+    public double getSellAmount() {
         return sellAmount;
     }
 
 
-    public void setAmount(double amount) {
-        this.sellAmount = amount;
+    public void setSellAmount(double sellAmount) {
+        this.sellAmount = sellAmount;
     }
 
     public double totalSellPrice() {
@@ -67,7 +67,7 @@ public class SellProduct extends ImportProduct {
 
         return "SellProduct{" +
                 "id=" + importProduct.getId() +
-                ", name=" + importProduct.getId() +
+                ", name=" + importProduct.getName() +
                 ", sellAmount=" + sellAmount +
                 ", totalSellPrice=" + totalSellPrice() +
                 ", sellDay=" + strSellDay +
@@ -107,13 +107,11 @@ public class SellProduct extends ImportProduct {
         int intSellAmount = (int) sellAmount;
         int intTotalSellPrice = (int) totalSellPrice();
 
-        return "Bill{" +
-                "id=" + importProduct.getId() +
-                ", name=" + importProduct.getId() +
-                ", price=" + importProduct.getSellPrice() +
-                ", Amount" + sellAmount +
-                ", Total=" + totalSellPrice() +
-                '}';
+        return importProduct.getId() +
+                ", " + importProduct.getId() +
+                ", " + importProduct.getSellPrice() +
+                ", " + sellAmount +
+                ", " + totalSellPrice();
     }
 }
 

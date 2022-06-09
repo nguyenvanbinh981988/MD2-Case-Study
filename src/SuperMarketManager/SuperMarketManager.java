@@ -41,13 +41,13 @@ public class SuperMarketManager {
                 if (user.getPass().equals(staffs.get(i).getPass())) {
                     if (staffs.get(i).getPosition().equals("manager")) {
                         auth = 3;
-                        System.out.println("you only choice 1 or 2 or 4 or 5");
+                        System.out.println("you only choice 1 or 2 or 4 or 5 or 6");
                     } else if (staffs.get(i).getPosition().equals("leader")) {
                         auth = 2;
-                        System.out.println("you only choice 2 or 3 or 4 or 5");
+                        System.out.println("you only choice 2 or 3 or 4 or 5 or 6");
                     } else {
                         auth = 1;
-                        System.out.println("you only choice 3 or 4 or 5");
+                        System.out.println("you only choice 3 or 4 or 5 or 6");
                     }
                 }
             }
@@ -62,9 +62,10 @@ public class SuperMarketManager {
         System.out.println("2. ImportProductManage");
         System.out.println("3. SellProductManage");
         System.out.println("4. Edit Pass");
-        System.out.println("5. Exit");
+        System.out.println("5. Logout");
+        System.out.println("6. Exit");
 
-        int choice = valiDateKeyBoard.importInt("choice");
+        int choice = valiDateKeyBoard.ValiDateChoiceSPM();
         switch (choice) {
             case 1:
                 if (position == 3) {
@@ -103,6 +104,9 @@ public class SuperMarketManager {
                 EditPass();
                 break;
             case 5:
+                login();
+                break;
+            case 6:
                 System.exit(0);
         }
     }

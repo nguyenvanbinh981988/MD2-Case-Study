@@ -26,25 +26,28 @@ public class SellProductManage {
     ReadAndWriteStaffList readAndWriteStaffList = new ReadAndWriteStaffList();
     SuperMarketManager superMarketManager = new SuperMarketManager();
 
-    {readAndWriteImportProductList.readFileImportProduct(importProducts);
+    {
+        readAndWriteImportProductList.readFileImportProduct(importProducts);
         readAndWriteSellProductList.readFileSellProduct(sellProducts);
-    readAndWriteStaffList.readFileStaffs(staffs);}
+        readAndWriteStaffList.readFileStaffs(staffs);
+    }
 
     SellProduct sellProduct;
 
-    public void sellProductMenu(){
+    public void sellProductMenu() {
         System.out.println("ProductManageMenu:");
         System.out.println("1. add SellProduct");
         System.out.println("2. edit information off sellProduct");
-        System.out.println("3. show All of sellProductList");
-        System.out.println("4. show sellProductList form.... to...");
+        System.out.println("3. show All of sellProductList of me");
+        System.out.println("4. show sellProductList form.... to... of me");
         System.out.println("5. showBill");
         System.out.println("6. comeBackSuperMarketManage");
-        System.out.println("7. Exit");
+        System.out.println("7. Logout");
+        System.out.println("8. exit");
 
-        int choice = valiDateKeyBoard.importInt("choice");
+        int choice = valiDateKeyBoard.ValiDateChoiceSellM();
 
-        switch (choice){
+        switch (choice) {
             case 1:
                 addSellProduct();
                 break;
@@ -52,10 +55,10 @@ public class SellProductManage {
                 editInformationSellProduct();
                 break;
             case 3:
-                showSellProductList();
+                showSellProductListOfMe();
                 break;
             case 4:
-                showSellProductListFromTo();
+                showSellProductListFromToOfMe();
                 break;
             case 5:
                 showBill();
@@ -64,32 +67,49 @@ public class SellProductManage {
                 comeBackSuperMarketManage();
                 break;
             case 7:
-                Exit();
+                logout();
                 break;
+            case 8:
+                System.exit(0);
         }
     }
 
     //case 1:
-    public void addSellProduct(){
+    public void addSellProduct() {
         readAndWriteImportProductList.readFileImportProduct(importProducts);
         readAndWriteSellProductList.readFileSellProduct(sellProducts);
 
+        Date sellDay = new Date();
         String id = valiDateKeyBoard.importString("Id of SellProduct");
         double sellAmount = valiDateKeyBoard.importDouble("sellAmount");
+        boolean check = true;
+        ImportProduct importProduct = null;
+        for (int i = 0; i < importProducts.size(); i++) {
+            if (id.equals(importProducts.get(i).getId())) {
+                check = false;
+                if (sellAmount < importProducts.get(i).inventory()) {
+                    importProduct = importProducts.get(i);
+                } else {
+                    System.out.println("This product is out of stock");
+                    sellProductMenu();
+                }
+            }
+        }
 
-        creatSellProduct(id,sellAmount);
+            if (check) {
+                System.out.println("there is not this Id in the ImportProductList");
+                sellProductMenu();
+            }
+                sellProduct = new SellProduct(importProduct, sellDay, sellAmount, SuperMarketManager.user);
+                sellProducts.add(sellProduct);
+                bills.add(sellProduct);
 
-        sellProducts.add(sellProduct);
-        bills.add(sellProduct);
-
-        readAndWriteSellProductList.writeSellProduct(sellProducts);
-        readWriteBill.writeBill(bills);
-        readAndWriteImportProductList.writeImportProduct(importProducts);
-
-    }
+                readAndWriteSellProductList.writeSellProduct(sellProducts);
+                readWriteBill.writeBill(bills);
+        }
 
     //case 2:
-    public void editInformationSellProduct(){
+    public void editInformationSellProduct() {
         readAndWriteImportProductList.readFileImportProduct(importProducts);
         readAndWriteSellProductList.readFileSellProduct(sellProducts);
 
@@ -97,13 +117,13 @@ public class SellProductManage {
         System.out.println("2. Edit amount");
         int choice = valiDateKeyBoard.importInt("1 or 2");
         String id = valiDateKeyBoard.importString("Id");
-        switch (choice){
+        switch (choice) {
             case 1:
                 for (int i = 0; i < bills.size(); i++) {
-                    if (id.equals(bills.get(i).getId())){
+                    if (id.equals(bills.get(i).getImportProduct().getId())) {
                         for (int j = 0; j < sellProducts.size(); j++) {
-                            if (id.equals(sellProducts.get(j).getId())) {
-                                sellProducts.get(j).setAmount(sellProducts.get(j).getAmount()-bills.get(i).getAmount());
+                            if (id.equals(sellProducts.get(j).getImportProduct().getId())) {
+                                sellProducts.get(j).setSellAmount(sellProducts.get(j).getSellAmount() - bills.get(i).getSellAmount());
                             }
                         }
                         bills.remove(i);
@@ -112,13 +132,13 @@ public class SellProductManage {
             case 2:
                 double amount = valiDateKeyBoard.importDouble("Amount");
                 for (int i = 0; i < bills.size(); i++) {
-                    if (id.equals(bills.get(i).getId())){
+                    if (id.equals(bills.get(i).getImportProduct().getId())) {
                         for (int j = 0; j < sellProducts.size(); j++) {
-                            if (id.equals(sellProducts.get(j).getId())) {
-                                sellProducts.get(j).setAmount(sellProducts.get(j).getAmount()-bills.get(i).getAmount()+amount);
+                            if (id.equals(sellProducts.get(j).getImportProduct().getId())) {
+                                sellProducts.get(j).setSellAmount(sellProducts.get(j).getSellAmount() - bills.get(i).getSellAmount() + amount);
                             }
                         }
-                        bills.get(i).setAmount(amount);
+                        bills.get(i).setSellAmount(amount);
                     }
                 }
         }
@@ -128,82 +148,70 @@ public class SellProductManage {
     }
 
 
-
     //case 3:
-    public void  showSellProductList(){
+    public void showSellProductListOfMe() {
         readAndWriteSellProductList.readFileSellProduct(sellProducts);
         System.out.println("this is showSellProductList");
-        for (SellProduct sell: sellProducts) {
-            System.out.println(sell);
+        System.out.println("Id, Name, sellAmount, totalSellPrice, SellDay, StaffId");
+        int totalSell = 0;
+        for (int i = 0; i < sellProducts.size(); i++) {
+            if (SuperMarketManager.user.getId().equals(sellProducts.get(i).getStaff().getId())) {
+                System.out.println(sellProducts.get(i).toString());
+                totalSell += sellProducts.get(i).totalSellPrice();
+            }
         }
-        readAndWriteSellProductList.writeSellProduct(sellProducts);
-
+        System.out.println("totalSell: " + totalSell);
     }
 
     //case 4:
-    public void showSellProductListFromTo(){
+    public void showSellProductListFromToOfMe() {
         readAndWriteSellProductList.writeSellProduct(sellProducts);
         Date formDay = valiDateKeyBoard.importDate("from day");
         Date toDay = valiDateKeyBoard.importDate("to day");
+        System.out.println("this is showSellProductList from " + formDay + " to " + toDay);
+        System.out.println("Id, Name, sellAmount, totalSellPrice, SellDay, StaffId");
         boolean check = false;
+        int totalSell = 0;
         for (int i = 0; i < sellProducts.size(); i++) {
             if (formDay.compareTo(sellProducts.get(i).getSellDay()) <= 0) {
                 if (toDay.compareTo(sellProducts.get(i).getSellDay()) >= 0) {
                     System.out.println(sellProducts.get(i).toString());
                     check = true;
+                    totalSell += sellProducts.get(i).totalSellPrice();
                 }
             }
         }
-        if(!check){
+        if (!check) {
             System.out.println("there are not import product in choice time \n");
         }
-      readAndWriteSellProductList.writeSellProduct(sellProducts);
+        System.out.println("totalSell: " + totalSell +" VND");
+        readAndWriteSellProductList.writeSellProduct(sellProducts);
     }
+
     //case 5:
-    public void showBill(){
+    public void showBill() {
         Date date = new Date();
-        System.out.println("this this bill_"+date);
+        System.out.println("this this bill_" + date);
+        System.out.println("Id, name, Price, Amount, money");
         double total = 0;
-        for (SellProduct sell:bills) {
+        for (SellProduct sell : bills) {
             System.out.println(sell.showBill());
             total += sell.totalSellPrice();
         }
-        System.out.println("total: "+total);
+        System.out.println("total: " + total + " VND");
         readWriteBill.writeBill(bills);
         bills.clear();
 
     }
 
     //case 6:
-    public void comeBackSuperMarketManage(){
+    public void comeBackSuperMarketManage() {
         superMarketManager.superMarketManagerMenu();
     }
 
     // case 7:
-    public void Exit(){
-        System.exit(0);
-    }
-
-
-
-    public void creatSellProduct(String id, double sellAmount) {
-        Date sellDay = new Date();
-        boolean check = false;
-
-        ImportProduct importProduct = null;
-        for (int i = 0; i < importProducts.size(); i++) {
-            if (id.equals(importProducts.get(i).getId())) {
-               importProduct = importProducts.get(i);
-                check = true;
-                break;
-            }
-        }
-
-        if (check) {
-                   sellProduct = new SellProduct(importProduct, sellDay, sellAmount, SuperMarketManager.user);
-        } else {
-                System.out.println("there is not this Id in the ImportProductList");
-                showSellProductListFromTo();
-            }
+    public void logout() {
+        SuperMarketManager superMarketManager = new SuperMarketManager();
+        superMarketManager.login();
     }
 }

@@ -47,7 +47,7 @@ public class ValiDateKeyBoard {
             }
             catch (Exception e){
                 System.out.println("Enter wrong, please try again. ex: 25/10/2022");
-                importInt(a);
+                importDate(a);
             }
         }
     }
@@ -62,8 +62,44 @@ public class ValiDateKeyBoard {
             }
             catch (Exception e){
                 System.out.println("Enter wrong, please try again.");
-                importInt(a);
+                importString(a);
             }
+        }
+    }
+
+    public int ValiDateChoiceSPM(){
+        int choice = importInt("you have to choice from 1 to 5");
+        if (choice>0 && choice<6){
+            return choice;
+        } else {
+            return importInt("you have to choice from 1 to 5");
+        }
+    }
+
+    public int ValiDateChoiceSM(){
+        int choice = importInt("you have to choice from 1 to 7");
+        if (choice>0 && choice<8){
+            return choice;
+        } else {
+            return importInt("you have to choice from 1 to 7");
+        }
+    }
+
+    public int ValiDateChoiceIPM(){
+        int choice = importInt("you have to choice from 1 to 9");
+        if (choice>0 && choice<10){
+            return choice;
+        } else {
+            return importInt("you have to choice from 1 to 9");
+        }
+    }
+
+    public int ValiDateChoiceSellM(){
+        int choice = importInt("you have to choice from 1 to 8");
+        if (choice>0 && choice<9){
+            return choice;
+        } else {
+            return importInt("you have to choice from 1 to 8");
         }
     }
 
