@@ -68,11 +68,11 @@ public class ValiDateKeyBoard {
     }
 
     public int ValiDateChoiceSPM(){
-        int choice = importInt("you have to choice from 1 to 5");
-        if (choice>0 && choice<6){
+        int choice = importInt("you have to choice from 1 to 6");
+        if (choice>0 && choice<7){
             return choice;
         } else {
-            return importInt("you have to choice from 1 to 5");
+            return importInt("you have to choice from 1 to 6");
         }
     }
 
