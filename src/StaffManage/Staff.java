@@ -210,22 +210,4 @@ public class Staff {
                 "," + StrActuallyIncome ;
     }
 
-    public String toStringPayRoll() {
-        String strBirth = new SimpleDateFormat("dd/MM/yyyy").format(birth);
-        String StrContractStartDay = new SimpleDateFormat("dd/MM/yyyy").format(contractStartDay);
-        String StrContractEndDay = new SimpleDateFormat("dd/MM/yyyy").format(contractEndDay);
-        int StrSalary = (int) salary;
-        int StrBusinessBonus = (int) businessBonus;
-        int StrActuallyIncome = (int) actuallyIncome();
-
-
-        return id +
-                ", " + name +
-                ", " + position  +
-                ", " + StrSalary +
-                ", " + workday +
-                ", " + StrBusinessBonus +
-                ", " + StrActuallyIncome;
-    }
-
 }

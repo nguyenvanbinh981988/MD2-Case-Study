@@ -90,29 +90,9 @@ public class SellProduct {
                 "," + staff.getId();
     }
 
-    public String toWriteBill() {
-        String strSellDay = new SimpleDateFormat("dd/MM/yyyy").format(sellDay);
-        int intSellAmount = (int) sellAmount;
-        int intTotalSellPrice = (int) totalSellPrice();
 
-        return importProduct.getId() +
-                "," + importProduct.getName() +
-                "," + importProduct.getSellPrice() +
-                "," + sellAmount +
-                "," + totalSellPrice() ;
-    }
 
-    public String showBill() {
-        String strSellDay = new SimpleDateFormat("dd/MM/yyyy").format(sellDay);
-        int intSellAmount = (int) sellAmount;
-        int intTotalSellPrice = (int) totalSellPrice();
 
-        return importProduct.getId() +
-                ", " + importProduct.getId() +
-                ", " + importProduct.getSellPrice() +
-                ", " + sellAmount +
-                ", " + totalSellPrice();
-    }
 }
 
 
